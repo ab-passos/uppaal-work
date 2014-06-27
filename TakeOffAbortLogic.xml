@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_1.dtd'><nta><declaration>// Place global declarations here.
+int [0,1]auto_to_abort_accelaration = 1;
+int [0,1]auto_to_abort_airspeed = 1;
+int [0,1]manual_to_abort = 1;
+
+int [0,1]decision_taken = 0;
+
+clock take_off_time;
+
+//accelaration = 0 -&gt; Bad || accelaration = 1 -&gt; ok</declaration><template><name x="5" y="5">Plane</name><declaration>// Place local declarations here.
+</declaration><location id="id0" x="16" y="-128"><name x="0" y="-160">Abort</name></location><location id="id1" x="16" y="-264"><name x="6" y="-294">Ok</name></location><location id="id2" x="-72" y="-200"><name x="-104" y="-232">TakeOff</name><committed/></location><location id="id3" x="-400" y="-200"><name x="-424" y="-232">Running</name></location><location id="id4" x="-576" y="-200"><name x="-608" y="-232">Stopped</name></location><init ref="id4"/><transition><source ref="id3"/><target ref="id0"/><label kind="guard" x="-248" y="-168">take_off_time &gt; 20</label></transition><transition><source ref="id3"/><target ref="id3"/><label kind="assignment" x="-472" y="-72">manual_to_abort = 0</label><nail x="-472" y="-72"/><nail x="-328" y="-72"/></transition><transition><source ref="id2"/><target ref="id0"/><label kind="guard" x="-40" y="-192">manual_to_abort == 0 or 
+(auto_to_abort_airspeed == 0 &amp;&amp; auto_to_abort_accelaration == 0)</label></transition><transition><source ref="id2"/><target ref="id1"/><label kind="guard" x="-40" y="-248">manual_to_abort == 1 &amp;&amp; 
+( auto_to_abort_airspeed == 1 or auto_to_abort_accelaration == 1)</label></transition><transition><source ref="id3"/><target ref="id2"/><label kind="guard" x="-288" y="-216">take_off_time &lt;= 20</label></transition><transition><source ref="id4"/><target ref="id3"/><label kind="assignment" x="-560" y="-200">take_off_time = 0</label></transition></template><template><name>Sensors</name><location id="id5" x="-112" y="-24"><name x="-136" y="-8">Reading</name></location><init ref="id5"/><transition><source ref="id5"/><target ref="id5"/><label kind="guard" x="-72" y="-56">auto_to_abort_airspeed == 1</label><label kind="assignment" x="-64" y="-40">auto_to_abort_airspeed = 0</label><nail x="-24" y="-96"/><nail x="-24" y="32"/></transition><transition><source ref="id5"/><target ref="id5"/><label kind="guard" x="-376" y="-56">auto_to_abort_airspeed == 0</label><label kind="assignment" x="-368" y="-40">auto_to_abort_airspeed = 1</label><nail x="-208" y="-96"/><nail x="-208" y="32"/><nail x="-136" y="-8"/></transition><transition><source ref="id5"/><target ref="id5"/><label kind="guard" x="-168" y="48">auto_to_abort_accelaration == 1</label><label kind="assignment" x="-168" y="64">auto_to_abort_accelaration = 0</label><nail x="-176" y="64"/><nail x="-40" y="64"/></transition><transition><source ref="id5"/><target ref="id5"/><label kind="guard" x="-168" y="-144">auto_to_abort_accelaration == 0</label><label kind="assignment" x="-168" y="-120">auto_to_abort_accelaration = 1</label><nail x="-192" y="-120"/><nail x="-40" y="-120"/></transition></template><system>// Place template instantiations here.
+//Process = Template();
+
+// List one or more processes to be composed into a system.
+system Plane, Sensors;</system></nta>
